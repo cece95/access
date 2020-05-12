@@ -17,6 +17,8 @@ The version that was used at submission time is on branch [submission](https://g
 git clone git@github.com:facebookresearch/access.git
 cd access
 pip install -e .
+pip install --force-reinstall easse@git+git://github.com/feralvam/easse.git@580ec953e4742c3ae806cc85d867c16e9f584505
+pip install --force-reinstall fairseq@git+https://github.com/louismartin/fairseq.git@controllable-sentence-simplification
 ```
 
 ### How to use
