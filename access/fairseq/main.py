@@ -13,7 +13,7 @@ from nevergrad.instrumentation import Instrumentation
 from nevergrad.optimization import optimizerlib
 import re
 
-from access.evaluation.general import evaluate_simplifier_on_turkcorpus
+from access.evaluation.general import evaluate_simplifier_on_turkcorpus, evaluate_simplifier_on_headlines
 from access.evaluation.utils import combine_metrics
 from access.fairseq.base import (fairseq_preprocess, fairseq_train, fairseq_generate, get_fairseq_exp_dir,
                                  )
@@ -58,7 +58,8 @@ def find_best_parametrization(exp_dir, metrics_coefs, preprocessors_kwargs, para
         # Note that we use default generate kwargs instead of provided one because they are faster
         preprocessors_kwargs = instru_kwargs_to_preprocessors_kwargs(instru_kwargs)
         simplifier = get_simplifier(exp_dir, preprocessors_kwargs=preprocessors_kwargs, generate_kwargs={})
-        scores = evaluate_simplifier_on_turkcorpus(simplifier, phase='valid')
+        scores = evaluate_simplifier_on_headlines(simplifier, phase='valid')
+        print('Scores: {}'.format(scores.keys()))
         return combine_metrics(scores['BLEU'], scores['SARI'], scores['FKGL'], metrics_coefs)
 
     def preprocessors_kwargs_to_instru_kwargs(preprocessors_kwargs):

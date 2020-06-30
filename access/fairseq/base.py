@@ -17,7 +17,7 @@ import time
 from fairseq import options
 from fairseq_cli import preprocess, train, generate
 
-from access.resources.paths import get_dataset_dir, EXP_DIR
+from access.resources.paths import get_dataset_dir, EXP_DIR, BEST_MODEL_DIR
 from access.utils.helpers import (log_stdout, lock_directory, create_directory_or_skip, yield_lines,
                                   write_lines)
 
@@ -51,6 +51,10 @@ def fairseq_preprocess(dataset):
                 str(preprocessed_dir),
                 '--output-format',
                 'raw',
+                '--srcdict',
+                os.path.join(BEST_MODEL_DIR, 'dict.complex.txt'),
+                '--tgtdict',
+                os.path.join(BEST_MODEL_DIR, 'dict.simple.txt')
             ])
             preprocess.main(preprocess_args)
         return preprocessed_dir
@@ -80,7 +84,7 @@ def fairseq_train(
         weight_decay=0.0001,
         criterion='label_smoothed_cross_entropy',
         optimizer='nag',
-        validations_before_sari_early_stopping=10,
+        validations_before_sari_early_stopping=20,
         fp16=False):
     exp_dir = Path(exp_dir)
     with log_stdout(exp_dir / 'fairseq_train.stdout'):
@@ -138,6 +142,8 @@ def fairseq_train(
             label_smoothing,
             '--seed',
             random.randint(1, 1000),
+            '--restore-file',
+            os.path.join(BEST_MODEL_DIR,'checkpoints', 'checkpoint_best.pt'),
             # '--force-anneal', '200',
             # '--distributed-world-size', '1',
         ]
@@ -267,7 +273,8 @@ def fairseq_generate(complex_filepath,
                      batch_size=128):
     exp_dir = Path(exp_dir)
     checkpoint_path = exp_dir / 'checkpoints/checkpoint_best.pt'
-    assert checkpoint_path.exists(), f'Generation failed, no checkpoint at {checkpoint_path}'
+    if not checkpoint_path.exists():	#, f'Generation failed, no checkpoint at {checkpoint_path}'
+    	shutil.copy(exp_dir / 'checkpoints/checkpoint_last.pt', checkpoint_path)
     complex_dictionary_path = exp_dir / 'dict.complex.txt'
     simple_dictionary_path = exp_dir / 'dict.simple.txt'
     _fairseq_generate(complex_filepath,

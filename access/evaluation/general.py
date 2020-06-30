@@ -29,3 +29,20 @@ def evaluate_simplifier_on_turkcorpus(simplifier, phase):
                                   sys_sents_path=pred_filepath,
                                   metrics='bleu,sari_legacy,fkgl',
                                   quality_estimation=True)
+                                  
+def get_prediction_on_headlines(simplifier, phase):
+    source_filepath = get_data_filepath('headlines', phase, 'complex')
+    pred_filepath = get_temp_filepath()
+    with mute():
+        simplifier(source_filepath, pred_filepath)
+    return pred_filepath
+
+
+def evaluate_simplifier_on_headlines(simplifier, phase):
+    pred_filepath = get_prediction_on_headlines(simplifier, phase)
+    pred_filepath = lowercase_file(pred_filepath)
+    pred_filepath = to_lrb_rrb_file(pred_filepath)
+    return evaluate_system_output(f'headlines_{phase}_legacy',
+                                  sys_sents_path=pred_filepath,
+                                  metrics='bleu,sari_legacy,fkgl',
+                                  quality_estimation=True)
