@@ -1,9 +1,11 @@
 # Controllable Sentence Simplification
 
-This repository contains the original implementation of the ACCESS model (**A**udien**C**e-**CE**ntric **S**entence **S**implification)  presented in [Controllable Sentence Simplification](https://arxiv.org/abs/1910.02677).
+The repository [ACCESS](https://github.com/facebookresearch/access) contains the original implementation of the ACCESS model (**A**udien**C**e-**CE**ntric **S**entence **S**implification)  presented in [Controllable Sentence Simplification](https://arxiv.org/abs/1910.02677).
 
 The version that was used at submission time is on branch [submission](https://github.com/facebookresearch/access/tree/submission).
 
+This fork contains the modified code to run the pretrained model on the **Headlines** Dataset and to perform transfer learning on it aswell.
+This fork also includes as default `sacrebleu 1.4.5` as dependency instead of the default `sacrebleu 1.4.10` to fix a compatibility issue with easse
 
 ## Getting Started
 
