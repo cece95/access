@@ -5,7 +5,10 @@ The repository [ACCESS](https://github.com/facebookresearch/access) contains the
 The version that was used at submission time is on branch [submission](https://github.com/facebookresearch/access/tree/submission).
 
 This fork contains the modified code to run the pretrained model on the **Headlines** Dataset and to perform transfer learning on it aswell.
-This fork also includes as default `sacrebleu 1.4.5` as dependency instead of the default `sacrebleu 1.4.10` to fix a compatibility issue with easse
+This fork also includes as default `sacrebleu 1.4.4` as dependency instead of the default `sacrebleu 1.4.10` to fix a compatibility issue with easse
+
+N.B. `Sacrebleu 1.4.5` which is the suggested fix for the aforementioned error produces another error regarding the need for an IPA dictionary for Mecab which is actually not necessary because none of the sentences are in japanese and the error seems to persist even after installing the required IPA dictionary.
+The version `1.4.4` doesn't present any of those problems
 
 ## Getting Started
 
