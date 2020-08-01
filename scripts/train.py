@@ -8,6 +8,7 @@
 from access.fairseq.main import fairseq_train_and_evaluate
 from access.resources.prepare import prepare_wikilarge, prepare_turkcorpus
 
+DATASET = 'headlines'
 
 if __name__ == '__main__':
     print('Training a model from scratch')
@@ -18,7 +19,7 @@ if __name__ == '__main__':
         'warmup_updates': 4000,
         'parametrization_budget': 256,
         'beam': 8,
-        'dataset': 'wikilarge',
+        'dataset': DATASET,
         'dropout': 0.2,
         'fp16': False,
         'label_smoothing': 0.54,

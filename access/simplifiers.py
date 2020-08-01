@@ -19,9 +19,10 @@ from access.utils.helpers import count_lines
 
 def memoize_simplifier(simplifier):
     memo = {}
-
+    print("1.1S")
     @wraps(simplifier)
     def wrapped(complex_filepath, pred_filepath):
+        print("1.1")
         complex_filehash = hashfile(complex_filepath, hexdigest=True)
         previous_pred_filepath = memo.get(complex_filehash)
         if previous_pred_filepath is not None and Path(previous_pred_filepath).exists():
@@ -36,14 +37,15 @@ def memoize_simplifier(simplifier):
     return wrapped
 
 
-def get_fairseq_simplifier(exp_dir, reload_preprocessors=False, **kwargs):
+def get_fairseq_simplifier(exp_dir, train, reload_preprocessors=False, **kwargs):
     '''Method factory'''
     @memoize_simplifier
     def fairseq_simplifier(complex_filepath, output_pred_filepath):
+        print("1.1: {}".format(exp_dir))
         # Trailing spaces for markdown formatting
         print('simplifier_type="fairseq_simplifier"  ')
         print(f'exp_dir="{exp_dir}"  ')
-        fairseq_generate(complex_filepath, output_pred_filepath, exp_dir, **kwargs)
+        fairseq_generate(complex_filepath, output_pred_filepath, exp_dir, train, **kwargs)
 
     preprocessors = None
     if reload_preprocessors:
@@ -59,6 +61,7 @@ def get_preprocessed_simplifier(simplifier, preprocessors):
     @memoize_simplifier
     @wraps(simplifier)
     def preprocessed_simplifier(complex_filepath, output_pred_filepath):
+        print("1.1.S2")
         print(f'preprocessors={preprocessors}')
         preprocessed_complex_filepath = tempfile.mkstemp()[1]
         composed_preprocessor.encode_file(complex_filepath, preprocessed_complex_filepath)

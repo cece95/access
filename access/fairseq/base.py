@@ -192,7 +192,8 @@ def _fairseq_generate(complex_filepath,
                       diverse_beam_groups=None,
                       diverse_beam_strength=0.5,
                       sampling=False,
-                      batch_size=128):
+                      batch_size=128,
+                      train=False):
     # exp_dir must contain checkpoints/checkpoint_best.pt, and dict.{complex,simple}.txt
     # First copy input complex file to exp_dir and create dummy simple file
     tmp_dir = Path(tempfile.mkdtemp())
@@ -219,7 +220,6 @@ def _fairseq_generate(complex_filepath,
         diverse_beam_strength,
         '--batch-size',
         batch_size,
-        '--raw-text',
         '--print-alignment',
         '--gen-subset',
         'tmp',
@@ -230,6 +230,8 @@ def _fairseq_generate(complex_filepath,
             'decoder_embed_path': None
         },
     ]
+    if train:
+        args.extend['--raw-text']
     if sampling:
         args.extend([
             '--sampling',
@@ -264,6 +266,7 @@ def _fairseq_generate(complex_filepath,
 def fairseq_generate(complex_filepath,
                      output_pred_filepath,
                      exp_dir,
+                     train,
                      beam=1,
                      hypothesis_num=1,
                      lenpen=1.,
@@ -277,6 +280,7 @@ def fairseq_generate(complex_filepath,
     	shutil.copy(exp_dir / 'checkpoints/checkpoint_last.pt', checkpoint_path)
     complex_dictionary_path = exp_dir / 'dict.complex.txt'
     simple_dictionary_path = exp_dir / 'dict.simple.txt'
+    print(5)
     _fairseq_generate(complex_filepath,
                       output_pred_filepath, [checkpoint_path],
                       complex_dictionary_path=complex_dictionary_path,

@@ -42,7 +42,7 @@ def evaluate_simplifier_on_headlines(simplifier, phase):
     pred_filepath = get_prediction_on_headlines(simplifier, phase)
     pred_filepath = lowercase_file(pred_filepath)
     pred_filepath = to_lrb_rrb_file(pred_filepath)
-    return evaluate_system_output(f'headlines_{phase}_legacy',
+    return evaluate_system_output(f'headlines_{phase}',
                                   sys_sents_path=pred_filepath,
-                                  metrics='bleu,sari_legacy,fkgl',
+                                  metrics='bleu,sari,fkgl',
                                   quality_estimation=True)

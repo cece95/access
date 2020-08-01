@@ -1,14 +1,9 @@
 # Controllable Sentence Simplification
 
-The repository [ACCESS](https://github.com/facebookresearch/access) contains the original implementation of the ACCESS model (**A**udien**C**e-**CE**ntric **S**entence **S**implification)  presented in [Controllable Sentence Simplification](https://arxiv.org/abs/1910.02677).
+This repository contains the original implementation of the ACCESS model (**A**udien**C**e-**CE**ntric **S**entence **S**implification)  presented in [Controllable Sentence Simplification](https://arxiv.org/abs/1910.02677).
 
 The version that was used at submission time is on branch [submission](https://github.com/facebookresearch/access/tree/submission).
 
-This fork contains the modified code to run the pretrained model on the **Headlines** Dataset and to perform transfer learning on it aswell.
-This fork also includes as default `sacrebleu 1.4.4` as dependency instead of the default `sacrebleu 1.4.10` to fix a compatibility issue with easse
-
-N.B. `Sacrebleu 1.4.5` which is the suggested fix for the aforementioned error produces another error regarding the need for an IPA dictionary for Mecab which is actually not necessary because none of the sentences are in japanese and the error seems to persist even after installing the required IPA dictionary.
-The version `1.4.4` doesn't present any of those problems
 
 ## Getting Started
 
@@ -21,9 +16,11 @@ The version `1.4.4` doesn't present any of those problems
 ```
 git clone git@github.com:facebookresearch/access.git
 cd access
-pip install -e .
-pip install --force-reinstall easse@git+git://github.com/cece95/easse.git
-pip install --force-reinstall fairseq@git+https://github.com/louismartin/fairseq.git@controllable-sentence-simplification
+pip3 install -e .
+pip3 install --ignore-installed --no-cache-dir pip
+pip3 install --ignore-installed --no-cache-dir requests
+pip3 install --force-reinstall easse@git+git://github.com/feralvam/easse.git@580ec953e4742c3ae806cc85d867c16e9f584505
+pip3 install --force-reinstall fairseq@git+https://github.com/louismartin/fairseq.git@controllable-sentence-simplification
 ```
 
 ### How to use

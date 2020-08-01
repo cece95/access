@@ -128,9 +128,9 @@ def prepare_fasttext_embeddings():
         shutil.move(extracted_path, FASTTEXT_EMBEDDINGS_PATH)
 
 
-def prepare_models():
+def prepare_models(folder):
     MODELS_DIR.mkdir(parents=True, exist_ok=True)
-    if not BEST_MODEL_DIR.exists():
+    if not BEST_MODEL_DIR[folder].exists():
         url = 'http://dl.fbaipublicfiles.com/access/best_model.tar.gz'
         extracted_path = download_and_extract(url)[0]
         shutil.move(extracted_path, BEST_MODEL_DIR)
@@ -139,4 +139,4 @@ def prepare_models():
         url = 'http://dl.fbaipublicfiles.com/access/all_parameters_model.tar.gz'
         extracted_path = download_and_extract(url)[0]
         shutil.move(extracted_path, all_parameters_model_dir)
-    return BEST_MODEL_DIR
+    return BEST_MODEL_DIR[folder]

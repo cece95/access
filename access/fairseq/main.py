@@ -60,7 +60,7 @@ def find_best_parametrization(exp_dir, metrics_coefs, preprocessors_kwargs, para
         simplifier = get_simplifier(exp_dir, preprocessors_kwargs=preprocessors_kwargs, generate_kwargs={})
         scores = evaluate_simplifier_on_headlines(simplifier, phase='valid')
         print('Scores: {}'.format(scores.keys()))
-        return combine_metrics(scores['BLEU'], scores['SARI'], scores['FKGL'], metrics_coefs)
+        return combine_metrics(scores['bleu'], scores['sari'], scores['fkgl'], metrics_coefs)
 
     def preprocessors_kwargs_to_instru_kwargs(preprocessors_kwargs):
         instru_kwargs = {}
@@ -128,5 +128,5 @@ def fairseq_train_and_evaluate(dataset, metrics_coefs=[1, 1, 1], parametrization
     simplifier = get_simplifier(exp_dir, recommended_preprocessors_kwargs, generate_kwargs)
     scores = evaluate_simplifier_on_turkcorpus(simplifier, phase='valid')
     print(f'scores={scores}')
-    score = combine_metrics(scores['BLEU'], scores['SARI'], scores['FKGL'], metrics_coefs)
+    score = combine_metrics(scores['bleu'], scores['sari'], scores['fkgl'], metrics_coefs)
     return score
